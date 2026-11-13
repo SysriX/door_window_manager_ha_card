@@ -1,0 +1,19 @@
+{#- Fenster-/Tür-Status aus bis zu zwei Kontakten: open / tilted / closed
+    offen: Kontakt für "ganz offen" (bei Dreh-Kipp-Fenstern der seitliche Kontakt)
+    kipp:  Kontakt für "gekippt" (der obere Kontakt), leer lassen bei Fenstern ohne Kippfunktion
+    Aufruf: {% from 'fenster_tuer.jinja' import kontakt %}{{ kontakt('binary_sensor.x_offen', 'binary_sensor.x_kipp') }} -#}
+{%- macro kontakt(offen, kipp='') -%}
+{%- set o = states(offen) -%}
+{%- set k = states(kipp) if kipp else 'off' -%}
+{%- if o in ['unavailable', 'unknown'] or k in ['unavailable', 'unknown'] -%}unavailable
+{%- elif o == 'on' -%}open
+{%- elif k == 'on' -%}tilted
+{%- else -%}closed
+{%- endif -%}
+{%- endmacro -%}
+
+{#- Verfügbarkeit: true, solange alle angegebenen Kontakte erreichbar sind
+    Aufruf: {% from 'fenster_tuer.jinja' import verfuegbar %}{{ verfuegbar('binary_sensor.x_offen', 'binary_sensor.x_kipp') }} -#}
+{%- macro verfuegbar(offen, kipp='') -%}
+{{- has_value(offen) and (not kipp or has_value(kipp)) -}}
+{%- endmacro -%}
