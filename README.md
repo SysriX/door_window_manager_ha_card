@@ -1,5 +1,9 @@
 # Door & Window Manager Card
 
+![Door & Window Manager Card preview](docs/images/preview.png)
+
+*Rendered from the card code with example data (no real Home Assistant).*
+
 Lovelace card (`custom:fenster-tuer-manager`) that creates and manages windows and doors as **template helpers** from one or two contact sensors. For every window/door it creates two UI template helpers:
 
 - `sensor.<id>` – state `open` / `tilted` / `closed` (used e.g. by the floor plan of the Room Tablet cards)
